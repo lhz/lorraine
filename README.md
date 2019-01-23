@@ -12,7 +12,7 @@ function init() {
 ```
 The `init()` function will be called once at the start, and should contain code that performs initial setup.
 Inside this function, you may set the value of the following variables:
-- `screen`: The background color of the screen (12-bit)
+- `screen`: The background color of the screen (12-bit, 0xRGB)
 - `frames`: The redraw frame rate (1 = 50Hz, 2 = 25Hz)
 
 ```js
