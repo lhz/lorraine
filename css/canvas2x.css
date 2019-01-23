@@ -1,0 +1,34 @@
+body {
+    background-color: #202220;
+}
+
+#container {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 768px;
+    height: 576px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#container #display, #scanlines {
+    position: absolute;
+}
+
+#display {
+    image-rendering: pixelated;
+}
+
+#scanlines {
+    width: 768px;
+    height: 576px;
+    zIndex: 999;
+    background: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
+    background-size: 100% 2px;
+    background-repeat: repeat-y;
+    opacity: .70;
+}
