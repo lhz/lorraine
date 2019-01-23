@@ -20,6 +20,33 @@ function Color(rgb12) {
     this.b = 17 *  (rgb12 & 0x00F);
 }
 
+function hsv(h, s, v) {
+    var r, g, b;
+    s = (s == undefined) ? 255.0 : s;
+    v = (v == undefined) ? 255.0 : v;
+    if (s == 0) {
+	r = v;
+	g = v;
+	b = v;
+    } else {
+	s /= 255.0;
+	var i = ((h / 60) ^ 0) % 6,
+	    f = h / 60 - i;
+	var p = v * (1.0 - s),
+	    q = v * (1.0 - s * f),
+	    t = v * (1.0 - s * (1 - f));
+	switch(i) {
+	case 0: r = v, g = t, b = p; break;
+	case 1: r = q, g = v, b = p; break;
+	case 2: r = p, g = v, b = t; break;
+	case 3: r = p, g = q, b = v; break;
+	case 4: r = t, g = p, b = v; break;
+	case 5: r = v, g = p, b = q; break;
+	}
+    }
+    return ((r & 0xF0) << 4) + (g & 0xF0) + ((b & 0xF0) >> 4);
+}
+
 function start() {
     canvas = document.getElementById("display");
     cc = canvas.getContext("2d");
