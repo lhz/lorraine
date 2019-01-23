@@ -1,6 +1,6 @@
 # Lorraine
 
-A JavaScript framework for fast prototyping of Amige demo effects
+A JavaScript framework for fast prototyping of Amiga demo effects
 
 ## Usage
 
