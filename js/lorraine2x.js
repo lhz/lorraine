@@ -10,6 +10,8 @@ var BUFFER_WIDTH  = 384;
 var BUFFER_HEIGHT = 288;
 
 var cc, bc, image, frame;
+var images = [];
+var loadedImages = {};
 
 var frames = 1;
 var screen = 0x333;
@@ -64,10 +66,32 @@ function start() {
     if (typeof(init) === typeof(Function))
 	init();
 
-    setInterval(function() {
-	redraw()
-	frame++;
-    }, 20 * frames);
+    var promiseArray = images.map(function(imgurl) {
+	var prom = new Promise(function(resolve,reject){
+	    var img = new Image();
+	    img.onload = function() {
+		var iCanvas = document.createElement("canvas");
+		var iContext = iCanvas.getContext("2d");
+		iContext.drawImage(img, 0, 0);
+		loadedImages[imgurl] = {
+		    image: img,
+		    data: iContext.getImageData(0, 0, img.width, img.height).data,
+		};
+		resolve();
+	    };
+	    img.src = imgurl;
+	});
+	return prom;
+    });
+
+    Promise.all(promiseArray).then(imagesLoaded);
+
+    function imagesLoaded() {
+	setInterval(function() {
+	    redraw()
+	    frame++;
+	}, 20 * frames);
+    }
 }
 
 function plot(x, y, color) {
@@ -76,6 +100,15 @@ function plot(x, y, color) {
     image.data[i * 4 + 0] = c.r;
     image.data[i * 4 + 1] = c.g;
     image.data[i * 4 + 2] = c.b;
+    image.data[i * 4 + 3] = 255;
+}
+
+function plot2(x, y, im, sx, sy) {
+    var i = BUFFER_WIDTH * y + x;
+    var j = im.image.width * sy + sx;
+    image.data[i * 4 + 0] = im.data[j * 4 + 0];
+    image.data[i * 4 + 1] = im.data[j * 4 + 1];
+    image.data[i * 4 + 2] = im.data[j * 4 + 2];
     image.data[i * 4 + 3] = 255;
 }
 
