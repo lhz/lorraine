@@ -154,5 +154,7 @@ function redraw() {
     clear();
     draw();
     bc.putImageData(image, 0, 0);
+    if (typeof(draw_canvas) === typeof(Function))
+	draw_canvas(bc);
     cc.drawImage(buffer, 0, 0, BUFFER_WIDTH, BUFFER_HEIGHT, 0, 0, 768, 576);
 }
