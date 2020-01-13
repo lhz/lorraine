@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+name=${1:?"Usage: $0 <name>"}
+
+tmpl=$HOME/dev/lhz/lorraine
+path=./$name
+
+if [ -e $path ]; then
+    echo "Path exists: $path" >&2
+    exit 1
+fi
+
+mkdir -p $path/{js,css}
+
+cp $tmpl/js/lorraine2x.js $path/js/
+cp $tmpl/css/lorraine2x.css $path/css/
+
+cat $tmpl/index.html | sed "s/code.js/$name.js/g" > $path/$name.html
+
+{ cat > $path/$name.js; } <<END
+function init() {
+}
+
+function draw() {
+}
+END

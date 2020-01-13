@@ -112,6 +112,15 @@ function plot2(x, y, im, sx, sy) {
     image.data[i * 4 + 3] = 255;
 }
 
+function peek(x, y) {
+    var i = BUFFER_WIDTH * y + x;
+    return {
+	r: image.data[i * 4 + 0],
+	g: image.data[i * 4 + 1],
+	b: image.data[i * 4 + 2]
+    }
+}
+
 function rect(x, y, w, h, color) {
     var c = new Color(color);
     var i = BUFFER_WIDTH * y + x;
@@ -145,5 +154,7 @@ function redraw() {
     clear();
     draw();
     bc.putImageData(image, 0, 0);
+    if (typeof(draw_canvas) === typeof(Function))
+	draw_canvas(bc);
     cc.drawImage(buffer, 0, 0, BUFFER_WIDTH, BUFFER_HEIGHT, 0, 0, 768, 576);
 }
