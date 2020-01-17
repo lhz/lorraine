@@ -8,7 +8,7 @@ var py = new Array(HSIZE);
 
 function init() {
     screen = 0x000;
-    t1 = TAU / 4;
+    t1 = TAU / 3.5;
     t2 = TAU / 3;
 }
 
