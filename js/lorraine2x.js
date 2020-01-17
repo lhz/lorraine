@@ -156,7 +156,7 @@ function line(x0, y0, x1, y1, color) {
 	var sx = sign(dx);
 	var sy = dy/ax;
 	var y  = y0;
-	for (x = x0; ax > 0; ax -= 1) {
+	for (x = x0; ax >= 0; ax -= 1) {
 	    plot(x, y, color);
 	    x += sx;
 	    y += sy;
@@ -165,7 +165,7 @@ function line(x0, y0, x1, y1, color) {
 	var sy = sign(dy);
 	var sx = dx/ay;
 	var x  = x0;
-	for (y = y0; ay > 0; ay -= 1) {
+	for (y = y0; ay >= 0; ay -= 1) {
 	    plot(x, y, color);
 	    x += sx;
 	    y += sy;
