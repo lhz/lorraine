@@ -5,6 +5,8 @@ var sin   = Math.sin;
 var cos   = Math.cos;
 var ceil  = Math.ceil;
 var floor = Math.floor;
+var abs   = Math.abs;
+var sign  = Math.sign;
 
 var BUFFER_WIDTH  = 384;
 var BUFFER_HEIGHT = 288;
@@ -96,7 +98,7 @@ function start() {
 
 function plot(x, y, color) {
     var c = new Color(color);
-    var i = BUFFER_WIDTH * y + x;
+    var i = BUFFER_WIDTH * floor(y) + floor(x);
     image.data[i * 4 + 0] = c.r;
     image.data[i * 4 + 1] = c.g;
     image.data[i * 4 + 2] = c.b;
@@ -114,16 +116,60 @@ function plot2(x, y, im, sx, sy) {
 
 function rect(x, y, w, h, color) {
     var c = new Color(color);
-    var i = BUFFER_WIDTH * y + x;
-    for (j = 0; j < h; j++) {
-	for (k = 0; k < w; k++) {
+    var i = BUFFER_WIDTH * floor(y) + floor(x);
+    for (j = 0; j < floor(h); j++) {
+	for (k = 0; k < floor(w); k++) {
 	    image.data[i * 4 + 0] = c.r;
 	    image.data[i * 4 + 1] = c.g;
 	    image.data[i * 4 + 2] = c.b;
 	    image.data[i * 4 + 3] = 255;
 	    i++;
 	}
-	i += BUFFER_WIDTH - w;
+	i += BUFFER_WIDTH - floor(w);
+    }
+}
+
+function circle(x, y, r, color) {
+    var d = floor(r * 2);
+    var c = new Color(color);
+    var i = BUFFER_WIDTH * floor(y - r) + floor(x - r);
+    for (j = 0; j < d; j++) {
+	for (k = 0; k < d; k++) {
+	    if ((j - r)*(j - r) + (k - r)*(k - r) < r * r) {
+		image.data[i * 4 + 0] = c.r;
+		image.data[i * 4 + 1] = c.g;
+		image.data[i * 4 + 2] = c.b;
+		image.data[i * 4 + 3] = 255;
+	    }
+	    i++;
+	}
+	i += BUFFER_WIDTH - d;
+    }
+}
+
+function line(x0, y0, x1, y1, color) {
+    var dx = x1 - x0;
+    var dy = y1 - y0;
+    var ax = floor(abs(dx));
+    var ay = floor(abs(dy));
+    if (ax >= ay) {
+	var sx = sign(dx);
+	var sy = dy/ax;
+	var y  = y0;
+	for (x = x0; ax > 0; ax -= 1) {
+	    plot(x, y, color);
+	    x += sx;
+	    y += sy;
+	}
+    } else {
+	var sy = sign(dy);
+	var sx = dx/ay;
+	var x  = x0;
+	for (y = y0; ay > 0; ay -= 1) {
+	    plot(x, y, color);
+	    x += sx;
+	    y += sy;
+	}
     }
 }
 
