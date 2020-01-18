@@ -1,12 +1,14 @@
 var x0 = 192, y0 = 96, l1 = 90, l2 = 70, m1 = 72, m2 = 56, g = 0.3;
 var x1, y1, x2, y2, t1 = 0, t2 = 0, v1 = 0, v2 = 0, a1 = 0, a2 = 0;
 
-const HSIZE = 15*32;
+const HSTEP = 20;
+const HSIZE = 15*HSTEP;
 
 var px = new Array(HSIZE);
 var py = new Array(HSIZE);
 
 function init() {
+    //screen = 0xfff;
     screen = 0x000;
     t1 = TAU / 3.5;
     t2 = TAU / 3;
@@ -40,7 +42,8 @@ function draw() {
 
     if (px.length > 1) {
 	for (i = 1; i < px.length; i++) {
-	    line(px[i - 1], py[i - 1], px[i], py[i], i / 32);
+	    //line(px[i - 1], py[i - 1], px[i], py[i], 0xfff - 0x110 * floor(i / HSTEP));
+	    line(px[i - 1], py[i - 1], px[i], py[i], floor(i / HSTEP));
 	}
     }
 
